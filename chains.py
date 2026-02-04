@@ -1,6 +1,5 @@
-from langchain.Chains import LLMChain
+from langchain.chains import LLMChain,SequentialChain
 from langchain_google_gen_ai import ChatGoogleGenerativeAI
-from lanchain.chains import SequentialChain
 from langchain.prompts import PromptTemplate
 
 llm=ChatGoogleGenerativeAI(
