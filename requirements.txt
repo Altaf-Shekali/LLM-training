@@ -1,0 +1,4 @@
+langchain
+GoogleGenerativeAI
+requests
+python-dotenv
