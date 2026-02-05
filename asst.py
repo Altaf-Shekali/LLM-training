@@ -49,6 +49,21 @@ error_detect__chain=LLMChain(
     output_key="error_report"
 )
 
+error_schemas = [
+    ResponseSchema(
+        name="error",
+        description="Name of the MISRA-C violation"
+    ),
+    ResponseSchema(
+        name="rule",
+        description="MISRA-C rule number violated"
+    ),
+    ResponseSchema(
+        name="description",
+        description="Explanation of the violated rule"
+    )
+]
+
 error_fix_prompt= ChatPromptTemplate(
     input_variables=["code","error_report"],
     template=""" You are expert in fixing the misra-c violations.
