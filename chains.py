@@ -2,6 +2,7 @@ from langchain.chains import LLMChain,SequentialChain
 from langchain_google_gen_ai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 
+
 llm=ChatGoogleGenerativeAI(
     model="models/gemini-2.5-pro",
     temperature=0.7
