@@ -1,4 +1,4 @@
-from langchain.chains import LLMChain, SequentialChain, ConversationChain
+from langchain.chains import LLMChain, ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain_google_gen_ai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
@@ -9,7 +9,7 @@ from langchain.chains.router.llm_router import LLMRouterChain
 llm=ChatGoogleGenerativeAI(
     model="models/gemini-2.5-pro",
     temperature=0.3,
-    max_token=100
+    max_tokens=500
 )
 
 memory=ConversationBufferWindowMemory(k=2)
@@ -58,6 +58,13 @@ router_prompt = ChatPromptTemplate.from_template(
     - misra: C code analysis and MISRA checking
 
     Return ONLY the destination name.
+    Respond in JSON:
+     {
+    "destination": "<destination>",
+    "next_inputs": {
+    "input": "<original user input>"
+    }
+    }
 
     User input:
     {input}
