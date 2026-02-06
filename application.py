@@ -1,6 +1,6 @@
 from langchain.chains import LLMChain, ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
-from langchain_google_gen_ai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import ResponseSchema, StructuredOutputParser
 from langchain.chains.router import MultiPromptChain

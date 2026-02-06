@@ -1,7 +1,7 @@
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import LLMChain, SequentialChain
 from langchain.prompts import ChatPromptTemplate
-from langchain_google_gen_ai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.output_parsers import ResponseSchema, StructuredOutputParser
 
 
@@ -56,9 +56,9 @@ error_fix_prompt= ChatPromptTemplate.from_template(
     3.Then give the corrected code only in the JSON format
 
     JSON format:
-{
+    {
     "corrected_code": "<fixed C code>"
-}
+    }
     c code:
     {code}
 
