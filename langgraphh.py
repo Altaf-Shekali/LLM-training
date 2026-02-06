@@ -1,7 +1,7 @@
 from langchain.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 import operator
-from langchain.messages import AnyMessage,SystemMessage,HumanMessage
+from langchain.messages import AnyMessage,SystemMessage,HumanMessage,ToolMessage
 from typing_extensions import TypedDict,Annotated
 from typing import Literal
 from langgraph.graph import StateGraph, START, END
@@ -29,15 +29,15 @@ llm=ChatGoogleGenerativeAI(
 
 tools=[addition,multiply]
 tools_by_name={tool.name: tool for tool in tools}
-model_with_tools=model.bind_tools(tools)
+model_with_tools=llm.bind_tools(tools)
 
 
 class MessageState(TypedDict):
-     messages=Annotated[list[AnyMessage],operator.add]
+     messages:Annotated[list[AnyMessage],operator.add]
      llm_calls:int
 
 
-def llm_call(State:dict):
+def llm_call(state:dict):
     """llm to decide whether to call a tool or not"""
     return {
         "messages": [
@@ -72,26 +72,24 @@ def should_continue(state:MessageState)->Literal["tool_node",END]:
 
 
      if last_message.tool_calls:
+         return "tool_node"
             
-         return END
+     return END
    
-
-
-
 agent_builder=StateGraph(MessageState)
 
-agent_builder.add_node("llm_call", lla_call)
-agent_builder.add_node("tool_node", tool_call)
+agent_builder.add_node("llm_call", llm_call)
+agent_builder.add_node("tool_node", tool_node)
 
-agent_builder.add_edge(STATE, "llm_call")
+agent_builder.add_edge(START, "llm_call")
 agent_builder.add_conditional_edges(
     "llm_call",
     should_continue,
-    ["tool_call",END]
+    ["tool_node",END]
 )
 agent_builder.add_edge("tool_node","llm_call")
 
-agent_builder.compile()
+agent=agent_builder.compile()
 
 display(Image(agent.get_graph(xray=True).draw_mermaid_png()))
 
